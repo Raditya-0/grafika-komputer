@@ -1,6 +1,6 @@
 # Drawing using HTML Canvas Graphics
 
-**Gambar Hasil:** ![Hasil Render Canvas](image\Hasil.png) 
+**Gambar Hasil:** ![Hasil Render Canvas](image/Hasil.png) 
 ---
 
 ## Deskripsi
