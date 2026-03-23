@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Low Poly Bird</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+    }
+    canvas {
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+</style>
+<script>
+    let g; // 2D graphics context
+
+    // Function Menggambar poligon dari array titik
+    function poly(pts) {
+        g.beginPath();
+        g.moveTo(pts[0], pts[1]);
+        for (let i = 2; i < pts.length; i += 2) {
+            g.lineTo(pts[i], pts[i + 1]);
+        }
+        g.closePath();
+        g.fill();
+    }
+
+
+    // Function Menggambar lingkaran radius r di (0,0)
+    function circle(r) {
+        g.beginPath();
+        g.arc(0, 0, r, 0, 2 * Math.PI, false);
+        g.fill();
+    }
+
+
+    // BAGIAN-BAGIAN GAMBAR
+
+    /** Menggambar background sunburst */
+    function drawBackground() {
+        g.save();
+
+        const cx = 800;
+        const cy = 620;
+
+        // Kuning terang (bawah kanan)
+        g.fillStyle = '#feed00';
+        poly([cx, cy, 600, 700, 800, 700]);
+
+        // Kuning emas terang (bawah tengah)
+        g.fillStyle = '#fdce00';
+        poly([cx, cy, 150, 700, 620, 700]);
+
+        // Kuning emas gelap (pojok kiri bawah)
+        g.fillStyle = '#fdbd2e';
+        poly([cx, cy, 0, 500, 0, 700, 290, 700]);
+
+        // Oranye (kiri tengah)
+        g.fillStyle = '#f8a251';
+        poly([cx, cy, 0, 300, 0, 500]);
+
+        // Oranye kemerahan (kiri atas)
+        g.fillStyle = '#f59469';
+        poly([cx, cy, 0, 50, 0, 300]);
+
+        // Merah muda (pojok kiri atas)
+        g.fillStyle = '#f5887b';
+        poly([cx, cy, 250, 0, 0, 0, 0, 50]);
+
+        // Pink (atas tengah kiri)
+        g.fillStyle = '#e8837a';
+        poly([cx, cy, 500, 0, 250, 0]);
+
+        // Pink ungu (atas tengah kanan)
+        g.fillStyle = '#ff7277';
+        poly([cx, cy, 700, 0, 500, 0]);
+
+        // Ungu tua (pojok kanan atas)
+        g.fillStyle = '#cf6b83';
+        poly([cx, cy, 800, 0, 700, 0]);
+
+        g.restore();
+    }
+
+    /** Menggambar Cabang */
+    function drawPerch() {
+        g.save();
+        g.fillStyle = '#000000';
+        poly([250, 520, 450, 550, 700, 550, 800, 600, 800, 620, 700, 570, 450, 570, 250, 540]);
+        g.restore();
+    }
+
+    /** Menggambar ekor */
+    function drawTail() {
+        g.save();
+
+        // Ekor biru gelap (segiempat memanjang)
+        g.fillStyle = '#227090';
+        poly([530, 490, 560, 490, 630, 630, 610, 630, 560, 570]);
+
+        // Ekor biru terang (segitiga menempel)
+        g.fillStyle = '#3090B0';
+        poly([560, 520, 580, 490, 630, 630]);
+
+        g.restore();
+    }
+
+    /** Menggambar badan burung */
+    function drawBody() {
+        g.save();
+
+        // Dada atas (oranye)
+        g.fillStyle = '#f09929';
+        poly([450, 300, 550, 300, 520, 360]);
+
+        // Perut tengah (hijau kuning)
+        g.fillStyle = '#b4be48';
+        poly([430, 420, 430, 490, 490, 470, 470, 450]);
+
+        // Sisi kanan pinggul (kuning hijau)
+        g.fillStyle = '#b4be48';
+        poly([470, 450, 490, 470, 580, 490, 520, 360]);
+
+        // Dada depan (kuning terang)
+        g.fillStyle = '#e8e34e';
+        poly([450, 300, 430, 420, 490, 470, 520, 360]);
+
+        // Perut bawah (hijau zaitun)
+        g.fillStyle = '#93B262';
+        poly([430, 490, 480, 510, 580, 490, 490, 470]);
+
+        g.restore();
+    }
+
+    /** Menggambar sayap */
+    function drawWing() {
+        g.save();
+
+        // Sayap atas (hijau lumut)
+        g.fillStyle = '#6A906C';
+        poly([520, 360, 550, 300, 610, 420, 550, 440]);
+
+        // Sayap tengah (hijau lumut gelap)
+        g.fillStyle = '#426A59';
+        poly([550, 440, 610, 420, 630, 490, 580, 490]);
+
+        // Sayap bawah/ekor (biru laut gelap)
+        g.fillStyle = '#234958';
+        poly([580, 490, 630, 490, 594, 530]);
+
+        // Ujung sayap paling bawah (biru paling gelap)
+        g.fillStyle = '#1A3744';
+        poly([620, 500, 630, 525, 594, 530]);
+
+        // Paha depan (kaki kiri)
+        g.fillStyle = '#008001';
+        poly([480, 500, 470, 530, 490, 530, 490, 510]);
+
+        // Paha belakang (kaki kanan)
+        g.fillStyle = '#008001';
+        poly([550, 490, 560, 530, 580, 550, 580, 490]);
+
+        // Sayap sisi kiri (kuning kecoklatan)
+        g.fillStyle = '#C57242';
+        poly([450, 300, 410, 340, 430, 420]);
+
+        // Sayap sisi kiri bawah (coklat gelap)
+        g.fillStyle = '#a7782a';
+        poly([430, 490, 400, 450, 410, 340, 430, 420]);
+
+        g.restore();
+    }
+
+    /** Menggambar kepala burung */
+    function drawHead() {
+        g.save();
+
+        // Wajah utama (oranye)
+        g.fillStyle = '#E38848';
+        poly([460, 200, 520, 190, 560, 230, 520, 260, 460, 250]);
+
+        // Dahi (oranye gelap)
+        g.fillStyle = '#C8623E';
+        poly([460, 200, 500, 160, 520, 190]);
+
+        // Mahkota tengah (ungu terang)
+        g.fillStyle = '#7B3F7A';
+        poly([500, 160, 530, 160, 520, 190]);
+
+        // Mahkota kiri (ungu medium)
+        g.fillStyle = '#51244E';
+        poly([570, 190, 530, 160, 520, 190]);
+
+        // Mahkota kanan (ungu gelap/bayangan)
+        g.fillStyle = '#261622';
+        poly([570, 190, 570, 210, 560, 230, 520, 190, 570, 190]);
+
+        g.restore();
+    }
+
+    /** Menggambar leher & dada atas */
+    function drawNeckChest() {
+        g.save();
+
+        // Leher bagian atas (oranye coklat)
+        g.fillStyle = '#ed8d1f';
+        poly([460, 250, 450, 300, 550, 300, 520, 260]);
+
+        // Leher bagian bawah/dada (oranye terang)
+        g.fillStyle = '#ce6c33';
+        poly([520, 260, 550, 300, 560, 230]);
+
+        g.restore();
+    }
+
+    /** Menggambar paruh burung */
+    function drawBeak() {
+        g.save();
+
+        // Paruh atas
+        g.fillStyle = '#CF5A47';
+        poly([460, 200, 430, 210, 440, 240, 460, 250]);
+
+        // Ujung paruh
+        g.fillStyle = '#B34438';
+        poly([430, 210, 420, 230, 440, 240]);
+
+        // Bawah paruh
+        g.fillStyle = '#E37463';
+        poly([440, 240, 430, 260, 460, 250]);
+
+        g.restore();
+    }
+
+    /** Menggambar mata burung */
+    function drawEye() {
+        g.save();
+
+        // putih keabu-abuan
+        g.fillStyle = '#D9D2C5';
+        poly([480, 200, 510, 200, 500, 230, 470, 220]);
+
+        // Bola mata hitam
+        g.save();
+        g.translate(490, 215);
+        g.fillStyle = '#000000';
+        circle(8);
+        g.restore();
+        
+        g.restore();
+    }
+
+    /** Menggambar kaki burung */
+    function drawLegs() {
+        g.save();
+
+        // Kaki kiri (abu terang & gelap)
+        g.fillStyle = '#b7a38b';
+        poly([470, 530, 465, 570, 475, 570, 480, 530]);
+        g.fillStyle = '#a99985';
+        poly([480, 530, 485, 570, 495, 570, 490, 530]);
+
+        // Kaki kanan (abu terang & gelap)
+        g.fillStyle = '#b7a38b';
+        poly([560, 530, 555, 570, 565, 570, 570, 530]);
+        g.fillStyle = '#a99985';
+        poly([570, 530, 575, 570, 585, 570, 580, 530]);
+
+        g.restore();
+    }
+
+    // FUNGSI UTAMA
+    function draw() {
+        drawBackground();
+        drawTail();
+        drawPerch();
+        drawWing();
+        drawBody();
+        drawNeckChest();
+        drawHead();
+        drawBeak();
+        drawEye();
+        drawLegs();
+    }
+
+    function init() {
+        try {
+            let canvas = document.getElementById("canvas");
+            g = canvas.getContext("2d");
+        } catch (e) {
+            document.getElementById("canvasholder").innerHTML =
+                "<p>Canvas tidak didukung.<br>Terjadi error saat inisialisasi.</p>";
+            return;
+        }
+        draw();
+    }
+
+    window.onload = init;
+</script>
+</head>
+<body>
+<div id="canvasholder">
+    <canvas id="canvas" width="800" height="700">
+        Canvas tidak didukung.
+    </canvas>
+</div>
+</body>
+</html>
